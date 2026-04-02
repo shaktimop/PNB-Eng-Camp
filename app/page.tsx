@@ -102,7 +102,7 @@ export default function Dashboard() {
               <h1 className="text-xl md:text-2xl font-bold tracking-tight text-[#003366] truncate">
                 {data.title}
               </h1>
-              <p className="text-sm text-slate-500 font-medium">Marketing Analytics Dashboard</p>
+              <p className="text-sm font-bold bg-gradient-to-r from-[#ff8c00] to-[#ff5722] bg-clip-text text-transparent">Engagement Campaign Report - AMJ 2026</p>
             </div>
           </div>
           
@@ -173,34 +173,42 @@ export default function Dashboard() {
                 Campaign Progress
               </CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center relative h-[200px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={[
-                      { name: 'Completed', value: data.duration.completedDays },
-                      { name: 'Remaining', value: data.duration.remainingDays },
-                    ]}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    startAngle={90}
-                    endAngle={-270}
-                    dataKey="value"
-                    stroke="none"
-                  >
-                    <Cell fill="#003366" />
-                    <Cell fill="#e2e8f0" />
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                <span className="text-3xl font-bold text-[#003366]">{data.duration.totalDays}</span>
-                <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Days Total</span>
+            <CardContent className="flex flex-col items-center justify-between relative h-[220px] pb-4">
+              <div className="w-full flex-1 relative">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <defs>
+                      <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#ff8c00" />
+                        <stop offset="100%" stopColor="#ff5722" />
+                      </linearGradient>
+                    </defs>
+                    <Pie
+                      data={[
+                        { name: 'Completed', value: data.duration.completedDays },
+                        { name: 'Remaining', value: data.duration.remainingDays },
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={55}
+                      outerRadius={70}
+                      startAngle={90}
+                      endAngle={-270}
+                      dataKey="value"
+                      stroke="none"
+                    >
+                      <Cell fill="url(#orangeGradient)" />
+                      <Cell fill="#e2e8f0" />
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                  <span className="text-3xl font-bold text-[#003366]">{data.duration.totalDays}</span>
+                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Days Total</span>
+                </div>
               </div>
               <div className="w-full flex justify-between text-sm mt-2 px-4">
-                <span className="text-[#003366] font-semibold">{data.duration.completedDays} Days Done</span>
+                <span className="text-[#ff8c00] font-semibold">{data.duration.completedDays} Days Done</span>
                 <span className="text-slate-500">{data.duration.remainingDays} Days Left</span>
               </div>
             </CardContent>
@@ -414,9 +422,14 @@ export default function Dashboard() {
             className="h-10 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 opacity-80 hover:opacity-100"
             onError={(e) => { e.currentTarget.src = 'https://logo.clearbit.com/pnbindia.in' }}
           />
-          <p className="text-sm text-slate-500 font-medium">
-            Punjab National Bank • Campaign Pulse Dashboard
-          </p>
+          <div className="text-center">
+            <p className="text-sm text-slate-500 font-medium">
+              Punjab National Bank • Campaign Pulse Dashboard
+            </p>
+            <p className="text-xs text-slate-400 mt-1">
+              © Goldmine Advertising Pvt. Ltd., 2026. All Rights Reserved.
+            </p>
+          </div>
         </div>
       </footer>
 

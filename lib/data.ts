@@ -1,5 +1,5 @@
 export const campaignData = {
-  title: "PNB On Pulse: Engagement Campaign",
+  title: "PNB on Pulse: Engagement Campaign",
   duration: {
     totalDays: 90,
     completedDays: 45,
