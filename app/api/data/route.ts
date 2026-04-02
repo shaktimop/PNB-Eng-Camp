@@ -26,7 +26,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    const ranges = ['Overview!A:B', 'Platforms!A:J', 'Demographics!A:C'];
+    const ranges = ['Overview!A:B', 'Platforms!A:M', 'Demographics!A:C'];
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values:batchGet?ranges=${ranges.join('&ranges=')}&key=${apiKey}`;
     
     console.log("Fetching Google Sheets URL:", url.replace(apiKey, 'HIDDEN_API_KEY'));
@@ -75,7 +75,9 @@ export async function GET(request: Request) {
           reach: parseInt(row[9] || '0', 10) || fallbackPlatform?.targets?.reach || Math.floor(reach * 1.25),
         },
         trends: {
-          impressions: "+0%", engagement: "+0%", reach: "+0%"
+          impressions: row[10] || fallbackPlatform?.trends?.impressions || "+0%",
+          engagement: row[11] || fallbackPlatform?.trends?.engagement || "+0%",
+          reach: row[12] || fallbackPlatform?.trends?.reach || "+0%"
         },
         creative: row[6] || "https://picsum.photos/seed/placeholder/400/300"
       };

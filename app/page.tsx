@@ -8,7 +8,7 @@ import {
 } from 'recharts';
 import { 
   Facebook, Instagram, Youtube, Twitter, Linkedin, 
-  TrendingUp, MapPin, Target, Activity, DollarSign,
+  TrendingUp, MapPin, Target, Activity, IndianRupee,
   Filter, Calendar, Download, AlertCircle, X
 } from 'lucide-react';
 import Image from 'next/image';
@@ -210,7 +210,7 @@ export default function Dashboard() {
           <Card className="shadow-sm border-slate-200">
             <CardHeader className="pb-2">
               <CardTitle className="text-lg flex items-center gap-2 text-[#003366]">
-                <DollarSign className="w-5 h-5 text-[#ff8c00]" />
+                <IndianRupee className="w-5 h-5 text-[#ff8c00]" />
                 Budget Utilization
               </CardTitle>
             </CardHeader>
