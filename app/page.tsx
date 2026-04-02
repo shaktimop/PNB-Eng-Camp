@@ -219,7 +219,7 @@ export default function Dashboard() {
             <CardHeader className="pb-2">
               <CardTitle className="text-lg flex items-center gap-2 text-[#003366]">
                 <IndianRupee className="w-5 h-5 text-[#ff8c00]" />
-                Budget Allocated
+                Budget Utilization
               </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col justify-center h-[200px] space-y-6">
@@ -264,10 +264,12 @@ export default function Dashboard() {
               let colorClass = "text-blue-600";
               let bgClass = "bg-blue-50";
               
-              if (platform.name === 'Instagram') { Icon = Instagram; colorClass = "text-pink-600"; bgClass = "bg-pink-50"; }
-              if (platform.name === 'YouTube') { Icon = Youtube; colorClass = "text-red-600"; bgClass = "bg-red-50"; }
-              if (platform.name === 'X (Twitter)') { Icon = Twitter; colorClass = "text-sky-500"; bgClass = "bg-sky-50"; }
-              if (platform.name === 'LinkedIn') { Icon = Linkedin; colorClass = "text-blue-700"; bgClass = "bg-blue-50"; }
+              const pName = platform.name.toLowerCase();
+              if (pName.includes('instagram')) { Icon = Instagram; colorClass = "text-pink-600"; bgClass = "bg-pink-50"; }
+              else if (pName.includes('youtube')) { Icon = Youtube; colorClass = "text-red-600"; bgClass = "bg-red-50"; }
+              else if (pName.includes('twitter') || pName === 'x') { Icon = Twitter; colorClass = "text-sky-500"; bgClass = "bg-sky-50"; }
+              else if (pName.includes('linkedin')) { Icon = Linkedin; colorClass = "text-blue-700"; bgClass = "bg-blue-50"; }
+              else if (pName.includes('facebook')) { Icon = Facebook; colorClass = "text-blue-600"; bgClass = "bg-blue-50"; }
 
               return (
                 <Card key={platform.name} className="shadow-sm hover:shadow-md transition-shadow border-slate-200">
@@ -326,11 +328,11 @@ export default function Dashboard() {
                     <div key={platform.name} className={`flex flex-col md:flex-row md:items-center gap-4 border rounded-xl p-5 ${styles.bg}`}>
                       <div className="w-full md:w-48 flex items-center gap-3 flex-shrink-0">
                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${styles.iconBg}`}>
-                          {platform.name === 'Facebook' && <Facebook className="w-5 h-5" />}
-                          {platform.name === 'Instagram' && <Instagram className="w-5 h-5" />}
-                          {platform.name === 'YouTube' && <Youtube className="w-5 h-5" />}
-                          {platform.name === 'X (Twitter)' && <Twitter className="w-5 h-5" />}
-                          {platform.name === 'LinkedIn' && <Linkedin className="w-5 h-5" />}
+                          {(platform.name.toLowerCase().includes('facebook')) && <Facebook className="w-5 h-5" />}
+                          {(platform.name.toLowerCase().includes('instagram')) && <Instagram className="w-5 h-5" />}
+                          {(platform.name.toLowerCase().includes('youtube')) && <Youtube className="w-5 h-5" />}
+                          {(platform.name.toLowerCase().includes('twitter') || platform.name.toLowerCase() === 'x') && <Twitter className="w-5 h-5" />}
+                          {(platform.name.toLowerCase().includes('linkedin')) && <Linkedin className="w-5 h-5" />}
                         </div>
                         <span className="font-semibold text-slate-700">{platform.name}</span>
                       </div>

@@ -107,7 +107,7 @@ export async function GET(request: Request) {
         remainingDays: (parseInt(overviewMap['Total Days']) - parseInt(overviewMap['Completed Days'])) || fallbackData.duration.remainingDays,
       },
       budget: {
-        allocated: parseInt(overviewMap['Budget Allocated']) || fallbackData.budget.allocated,
+        allocated: parseInt(overviewMap['Budget Utilization'] || overviewMap['Budget Allocated']) || fallbackData.budget.allocated,
         spent: parseInt(overviewMap['Budget Spent']) || fallbackData.budget.spent,
       },
       platforms: platforms.length > 0 ? platforms : fallbackData.platforms,
