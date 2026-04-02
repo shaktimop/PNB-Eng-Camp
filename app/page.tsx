@@ -211,7 +211,7 @@ export default function Dashboard() {
             <CardHeader className="pb-2">
               <CardTitle className="text-lg flex items-center gap-2 text-[#003366]">
                 <IndianRupee className="w-5 h-5 text-[#ff8c00]" />
-                Budget Utilization
+                Budget Allocated
               </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col justify-center h-[200px] space-y-6">

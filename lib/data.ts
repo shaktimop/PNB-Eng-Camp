@@ -1,5 +1,5 @@
 export const campaignData = {
-  title: "#PNBOnPulse: Real-Time Engagement Campaign (Apr–Jun 2026)",
+  title: "PNB On Pulse: Engagement Campaign",
   duration: {
     totalDays: 90,
     completedDays: 45,
