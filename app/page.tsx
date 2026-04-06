@@ -64,9 +64,14 @@ export default function Dashboard() {
     );
   }
 
+  const availablePlatforms = data.platforms.filter((p: any) => {
+    const name = p.name.toLowerCase();
+    return !name.includes('linkedin') && !name.includes('twitter') && name !== 'x';
+  });
+
   const filteredPlatforms = selectedPlatform === 'All' 
-    ? data.platforms 
-    : data.platforms.filter((p: any) => p.name === selectedPlatform);
+    ? availablePlatforms 
+    : availablePlatforms.filter((p: any) => p.name === selectedPlatform);
 
   let rawSheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID || "1A8nYYHTgG3x6vOBYWuUHWlaUZP-LVYdABheA5LkMg20";
   let sheetId = rawSheetId.replace(/['"]/g, '').trim();
@@ -116,7 +121,7 @@ export default function Dashboard() {
                 onChange={(e) => setSelectedPlatform(e.target.value)}
               >
                 <option value="All">All Platforms</option>
-                {data.platforms.map((p: any) => (
+                {availablePlatforms.map((p: any) => (
                   <option key={p.name} value={p.name}>{p.name}</option>
                 ))}
               </select>
@@ -258,7 +263,7 @@ export default function Dashboard() {
           <h2 className="text-xl font-bold text-[#003366] mb-4 flex items-center gap-2">
             Platform Performance
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredPlatforms.map((platform: any) => {
               let Icon = Facebook;
               let colorClass = "text-blue-600";
@@ -380,8 +385,8 @@ export default function Dashboard() {
               <CardDescription>Top performing creatives across platforms</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                {data.platforms.map((platform: any) => {
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
+                {availablePlatforms.map((platform: any) => {
                   let creativeUrl = platform.creative;
                   if (platform.name === 'Facebook') creativeUrl = 'https://blog.hootsuite.com/wp-content/uploads/2023/11/How-to-schedule-a-post-on-facebook-21.png';
                   if (platform.name === 'Instagram') creativeUrl = 'https://www.postplanner.com/hubfs/what-to-post-on-instagram.png';
