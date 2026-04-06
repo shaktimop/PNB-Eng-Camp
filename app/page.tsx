@@ -384,17 +384,15 @@ export default function Dashboard() {
           <Card className="shadow-sm border-slate-200">
             <CardHeader>
               <CardTitle className="text-lg text-[#003366]">Creative Showcase</CardTitle>
-              <CardDescription>Top performing creatives across platforms</CardDescription>
+              <CardDescription>Active Creatives Across Platforms</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
                 {availablePlatforms.map((platform: any) => {
                   let creativeUrl = platform.creative;
-                  if (platform.name === 'Facebook') creativeUrl = 'https://blog.hootsuite.com/wp-content/uploads/2023/11/How-to-schedule-a-post-on-facebook-21.png';
-                  if (platform.name === 'Instagram') creativeUrl = 'https://www.postplanner.com/hubfs/what-to-post-on-instagram.png';
-                  if (platform.name === 'YouTube') creativeUrl = 'https://i.ytimg.com/vi/w25FNPlnXXQ/maxresdefault.jpg';
-                  if (platform.name === 'LinkedIn') creativeUrl = 'https://revenuezen.com/wp-content/uploads/2021/12/examples-of-good-linkedin-posts-2-1024x801-1.png';
-                  if (platform.name === 'X (Twitter)') creativeUrl = 'https://static01.nyt.com/images/2021/06/03/business/oakImage-1622737554865/oakImage-1622737554865-superJumbo.png';
+                  if (platform.name === 'Facebook') creativeUrl = 'https://image2url.com/r2/default/images/1775460217845-19b499e7-e645-46dd-8431-480423133943.jpeg';
+                  if (platform.name === 'Instagram') creativeUrl = 'https://image2url.com/r2/default/images/1775460273062-8dee75d5-ccfd-47e0-8d37-628c4524a6d9.jpeg';
+                  if (platform.name === 'YouTube') creativeUrl = 'https://image2url.com/r2/default/images/1775460298733-7bd79a89-33ff-4f33-85cf-74dec165ce17.jpeg';
 
                   return (
                   <div 
