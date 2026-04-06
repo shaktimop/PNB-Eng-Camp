@@ -285,7 +285,9 @@ export default function Dashboard() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-4 pt-2 space-y-4">
-                    {Object.entries(platform.metrics).map(([key, value]) => (
+                    {Object.entries(platform.metrics)
+                      .filter(([key]) => !['views', 'clicks'].includes(key.toLowerCase()))
+                      .map(([key, value]) => (
                       <div key={key} className="flex justify-between items-end">
                         <div>
                           <p className="text-xs text-slate-500 capitalize">{key}</p>
