@@ -8,8 +8,8 @@ import {
 } from 'recharts';
 import { 
   Facebook, Instagram, Youtube, Twitter, Linkedin, 
-  TrendingUp, MapPin, Target, Activity, IndianRupee,
-  Filter, Calendar, Download, AlertCircle, X
+  TrendingUp, TrendingDown, MapPin, Target, Activity, IndianRupee,
+  Filter, Calendar, Download, AlertCircle, X, ChevronLeft, ChevronRight, Images
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -34,7 +34,22 @@ export default function Dashboard() {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isMock, setIsMock] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedGallery, setSelectedGallery] = useState<{ images: string[], currentIndex: number } | null>(null);
+
+  const platformGalleries: Record<string, string[]> = {
+    'Facebook': [
+      'https://image2url.com/r2/default/images/1775460217845-19b499e7-e645-46dd-8431-480423133943.jpeg',
+      'https://image2url.com/r2/default/images/1775633295945-fa577b40-8601-4bfd-9eb9-503dd085a4c4.jpeg'
+    ],
+    'Instagram': [
+      'https://image2url.com/r2/default/images/1775460273062-8dee75d5-ccfd-47e0-8d37-628c4524a6d9.jpeg',
+      'https://image2url.com/r2/default/images/1775633351580-cc52f2cc-e915-42a7-a6d6-a555a4806c51.jpeg'
+    ],
+    'YouTube': [
+      'https://image2url.com/r2/default/images/1775460298733-7bd79a89-33ff-4f33-85cf-74dec165ce17.jpeg',
+      'https://image2url.com/r2/default/images/1775633382843-48ec3655-be5c-4080-8e6f-d497969ad00c.jpeg'
+    ]
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -287,18 +302,25 @@ export default function Dashboard() {
                   <CardContent className="p-4 pt-2 space-y-4">
                     {Object.entries(platform.metrics)
                       .filter(([key]) => !['views', 'clicks'].includes(key.toLowerCase()))
-                      .map(([key, value]) => (
-                      <div key={key} className="flex justify-between items-end">
-                        <div>
-                          <p className="text-xs text-slate-500 capitalize">{key}</p>
-                          <p className="text-lg font-bold text-[#003366]">{formatNumber(value as number)}</p>
-                        </div>
-                        <div className="flex items-center text-xs font-medium text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
-                          <TrendingUp className="w-3 h-3 mr-1" />
-                          {platform.trends[key as keyof typeof platform.trends] || '+0%'}
-                        </div>
-                      </div>
-                    ))}
+                      .map(([key, value]) => {
+                        const trendStr = String(platform.trends[key as keyof typeof platform.trends] || '+0%');
+                        const isNegative = trendStr.trim().startsWith('-');
+                        const trendColorClass = isNegative ? 'text-rose-600 bg-rose-50' : 'text-emerald-600 bg-emerald-50';
+                        const TrendIcon = isNegative ? TrendingDown : TrendingUp;
+
+                        return (
+                          <div key={key} className="flex justify-between items-end">
+                            <div>
+                              <p className="text-xs text-slate-500 capitalize">{key}</p>
+                              <p className="text-lg font-bold text-[#003366]">{formatNumber(value as number)}</p>
+                            </div>
+                            <div className={`flex items-center text-xs font-medium px-1.5 py-0.5 rounded ${trendColorClass}`}>
+                              <TrendIcon className="w-3 h-3 mr-1" />
+                              {trendStr}
+                            </div>
+                          </div>
+                        );
+                      })}
                   </CardContent>
                 </Card>
               );
@@ -389,27 +411,31 @@ export default function Dashboard() {
             <CardContent>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
                 {availablePlatforms.map((platform: any) => {
-                  let creativeUrl = platform.creative;
-                  if (platform.name === 'Facebook') creativeUrl = 'https://image2url.com/r2/default/images/1775460217845-19b499e7-e645-46dd-8431-480423133943.jpeg';
-                  if (platform.name === 'Instagram') creativeUrl = 'https://image2url.com/r2/default/images/1775460273062-8dee75d5-ccfd-47e0-8d37-628c4524a6d9.jpeg';
-                  if (platform.name === 'YouTube') creativeUrl = 'https://image2url.com/r2/default/images/1775460298733-7bd79a89-33ff-4f33-85cf-74dec165ce17.jpeg';
+                  const gallery = platformGalleries[platform.name] || [platform.creative || 'https://picsum.photos/seed/placeholder/800/600'];
+                  const coverImage = gallery[0];
 
                   return (
                   <div 
                     key={platform.name} 
                     className="group relative rounded-lg overflow-hidden border border-slate-200 bg-slate-50 aspect-[4/3] cursor-pointer"
-                    onClick={() => setSelectedImage(creativeUrl)}
+                    onClick={() => setSelectedGallery({ images: gallery, currentIndex: 0 })}
                   >
                     <Image 
-                      src={creativeUrl} 
+                      src={coverImage} 
                       alt={`${platform.name} creative`}
                       fill
                       unoptimized
                       className="object-cover transition-transform group-hover:scale-105"
                       referrerPolicy="no-referrer"
                     />
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8">
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 pt-8 flex justify-between items-end">
                       <p className="text-white text-xs font-semibold">{platform.name}</p>
+                      {gallery.length > 1 && (
+                        <div className="flex items-center gap-1 text-white/90 bg-black/50 px-1.5 py-0.5 rounded text-[10px] font-medium backdrop-blur-sm">
+                          <Images className="w-3 h-3" />
+                          <span>{gallery.length}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )})}
@@ -441,27 +467,54 @@ export default function Dashboard() {
       </footer>
 
       {/* Image Modal */}
-      {selectedImage && (
+      {selectedGallery && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
-          onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          onClick={() => setSelectedGallery(null)}
         >
-          <div className="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center">
+          <div className="relative max-w-5xl w-full max-h-[90vh] flex items-center justify-center group" onClick={(e) => e.stopPropagation()}>
             <button 
-              className="absolute -top-12 right-0 text-white hover:text-slate-300 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedImage(null);
-              }}
+              className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors"
+              onClick={() => setSelectedGallery(null)}
             >
               <X className="w-8 h-8" />
             </button>
+
+            {selectedGallery.images.length > 1 && (
+              <button 
+                className="absolute left-2 md:-left-12 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/80 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedGallery(prev => prev ? { ...prev, currentIndex: (prev.currentIndex - 1 + prev.images.length) % prev.images.length } : null);
+                }}
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </button>
+            )}
+
             <img 
-              src={selectedImage} 
+              src={selectedGallery.images[selectedGallery.currentIndex]} 
               alt="Full screen creative" 
-              className="max-w-full max-h-[90vh] object-contain rounded-md"
-              onClick={(e) => e.stopPropagation()}
+              className="max-w-full max-h-[90vh] object-contain rounded-md shadow-2xl"
             />
+
+            {selectedGallery.images.length > 1 && (
+              <button 
+                className="absolute right-2 md:-right-12 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/80 transition-colors opacity-100 md:opacity-0 md:group-hover:opacity-100 z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedGallery(prev => prev ? { ...prev, currentIndex: (prev.currentIndex + 1) % prev.images.length } : null);
+                }}
+              >
+                <ChevronRight className="w-8 h-8" />
+              </button>
+            )}
+
+            {selectedGallery.images.length > 1 && (
+              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-white/70 text-sm font-medium tracking-widest bg-black/40 px-3 py-1 rounded-full">
+                {selectedGallery.currentIndex + 1} / {selectedGallery.images.length}
+              </div>
+            )}
           </div>
         </div>
       )}
