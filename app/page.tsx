@@ -223,13 +223,13 @@ export default function Dashboard() {
                   </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                  <span className="text-3xl font-bold text-[#003366]">{data.duration.totalDays}</span>
-                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Days Total</span>
+                  <span className="text-3xl font-bold text-[#003366]">{data.duration.remainingDays}</span>
+                  <span className="text-xs text-slate-500 font-medium uppercase tracking-wider">Days Left</span>
                 </div>
               </div>
               <div className="w-full flex justify-between text-sm mt-2 px-4">
                 <span className="text-[#ff8c00] font-semibold">{data.duration.completedDays} Days Done</span>
-                <span className="text-slate-500">{data.duration.remainingDays} Days Left</span>
+                <span className="text-slate-500">{data.duration.totalDays} Total Days</span>
               </div>
             </CardContent>
           </Card>
